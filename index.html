@@ -19,7 +19,6 @@
       background: rgba(255,255,255,0.88);
       backdrop-filter: blur(20px);
       border: 1px solid rgba(255,255,255,0.6);
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
     }
   </style>
 </head>
@@ -27,7 +26,6 @@
   <div class="min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-md mx-auto">
 
-      <!-- Header -->
       <div class="flex flex-col items-center mb-8">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 bg-black rounded-2xl flex items-center justify-center shadow-md">
@@ -40,87 +38,56 @@
         <p class="text-white/90 text-sm mt-1 drop-shadow">TikTok Downloader</p>
       </div>
 
-      <!-- Main Card -->
       <div class="glass rounded-3xl p-7">
-        <p class="text-center text-gray-700 mb-6">Download Video TikTok tanpa watermark • HD Anjing</p>
+        <p class="text-center text-gray-700 mb-6">Download Video TikTok tanpa watermark • HD</p>
 
         <div class="mb-6">
           <div class="flex gap-2">
-            <input 
-              id="urlInput" 
-              type="text" 
-              placeholder="Paste link TikTok sini kontol..."
-              class="flex-1 bg-white border border-gray-200 rounded-2xl px-5 py-4 focus:border-pink-400 focus:outline-none transition-all text-sm">
+            <input id="urlInput" type="text" placeholder="Paste link TikTok di sini..." 
+                   class="flex-1 bg-white border border-gray-200 rounded-2xl px-5 py-4 focus:border-pink-400 focus:outline-none transition-all text-sm">
             
-            <button onclick="pasteFromClipboard()" 
-                    class="bg-white border border-gray-300 hover:bg-gray-50 px-5 rounded-2xl transition-all">
-              📋
-            </button>
-            
-            <button onclick="downloadVideo()"
-                    class="bg-black hover:bg-zinc-800 text-white px-6 rounded-2xl transition-all">
-              ⬇️
-            </button>
+            <button onclick="pasteFromClipboard()" class="bg-white border border-gray-300 hover:bg-gray-50 px-5 rounded-2xl transition-all">📋</button>
+            <button onclick="downloadVideo()" class="bg-black hover:bg-zinc-800 text-white px-6 rounded-2xl transition-all">⬇️</button>
           </div>
         </div>
 
-        <!-- Loading -->
         <div id="loading" class="hidden text-center py-10">
           <div class="w-11 h-11 border-4 border-gray-300 border-t-pink-500 rounded-full animate-spin mx-auto"></div>
-          <p class="text-gray-700 mt-4">Lagi nyari video tanpa wm anjir... Sabar babi</p>
+          <p class="text-gray-700 mt-4">Sedang mengambil video...</p>
         </div>
 
-        <!-- Result -->
         <div id="result" class="hidden">
           <div class="bg-white rounded-3xl overflow-hidden mb-6 border border-gray-100 shadow">
             <video id="preview" controls class="w-full rounded-3xl"></video>
           </div>
           <div class="grid grid-cols-2 gap-3">
-            <a id="downloadVideoBtn" class="flex items-center justify-center gap-2 bg-black text-white py-4 rounded-2xl font-medium hover:bg-zinc-800">
-              <i class="fa-solid fa-video"></i> Video HD
-            </a>
-            <a id="downloadAudioBtn" class="flex items-center justify-center gap-2 bg-white border border-gray-300 py-4 rounded-2xl font-medium hover:bg-gray-50">
-              <i class="fa-solid fa-music"></i> Audio Only
-            </a>
+            <a id="downloadVideoBtn" class="flex items-center justify-center gap-2 bg-black text-white py-4 rounded-2xl font-medium hover:bg-zinc-800">Video HD</a>
+            <a id="downloadAudioBtn" class="flex items-center justify-center gap-2 bg-white border border-gray-300 py-4 rounded-2xl font-medium hover:bg-gray-50">Audio Only</a>
           </div>
         </div>
 
-        <!-- Error -->
-        <div id="error" class="hidden bg-red-50 border border-red-200 text-red-600 rounded-2xl p-4 text-center">
-          ❌ Bukan link TikTok kontol! Paste yang bener anjing.
-        </div>
+        <div id="error" class="hidden bg-red-50 border border-red-200 text-red-600 rounded-2xl p-4 text-center text-sm"></div>
       </div>
 
-      <!-- Tombol Besar -->
       <div class="text-center mt-6">
-        <button onclick="downloadVideo()" 
-                class="inline-flex items-center gap-2 bg-white text-black hover:bg-gray-100 px-8 py-4 rounded-2xl text-base font-bold shadow-md transition-all">
-          <i class="fa-solid fa-download"></i>
-          DOWNLOAD SEKARANG ANJIR
-        </button>
+        <button onclick="downloadVideo()" class="bg-white text-black px-8 py-4 rounded-2xl font-bold">DOWNLOAD SEKARANG</button>
       </div>
-
-      <p class="text-center text-xs text-white/70 mt-8 drop-shadow">Snapdragon • Downloader Gaul</p>
     </div>
   </div>
 
   <script>
-    // === URL VERCEL KAMU ===
     const API_BASE = "https://snapshooting-3fp9.vercel.app";
 
     async function pasteFromClipboard() {
       try {
         const text = await navigator.clipboard.readText();
         document.getElementById('urlInput').value = text;
-        if (text.includes("tiktok")) downloadVideo();
-      } catch(e) {
-        alert("Gagal ambil clipboard kontol");
-      }
+      } catch(e) {}
     }
 
     async function downloadVideo() {
       let url = document.getElementById('urlInput').value.trim();
-      if (!url) return alert("Link TikToknya mana anjing?!");
+      if (!url) return alert("Masukkan link TikTok dulu!");
 
       const loading = document.getElementById('loading');
       const result = document.getElementById('result');
@@ -141,13 +108,12 @@
           document.getElementById('downloadVideoBtn').href = videoUrl;
           document.getElementById('downloadVideoBtn').download = `snapdragon_${Date.now()}.mp4`;
           result.classList.remove('hidden');
-          alert("✅ Video udah jadi kontol! Langsung download anjir.");
         } else {
-          throw new Error();
+          throw new Error("Tidak ada video");
         }
       } catch (e) {
         error.classList.remove('hidden');
-        alert("Gagal bro, cek lagi linknya babi.");
+        error.textContent = "Gagal memproses link. Coba link TikTok lain.";
       } finally {
         loading.classList.add('hidden');
       }
